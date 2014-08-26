@@ -1,0 +1,20 @@
+{
+  "name": "openshift-basic",
+  "description": "basic Node.js template for OpenShift",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/6170-fa14/openshift-basic"
+  },
+
+  "engines": {
+    "node": ">= 0.30.0",
+    "npm": ">= 1.0.0"
+  },
+
+  "dependencies": {
+    "express": ">= 4.0.0"
+  },
+
+  "main": "server.js"
+}
