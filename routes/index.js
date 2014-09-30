@@ -37,7 +37,7 @@ db.once('open', function () {
         title : String,
         body : String,
         name : String,
-        timestamp : {type:String, default: moment().format("MMM Do YY, h:mm a")}
+        timestamp : String
     });
     Post = mongoose.model("Post", postSchema);
 });
@@ -144,7 +144,8 @@ router.get('/submitpost', function index(req, res) {
             title : title,
             body : body,
             name : acct.name,
-            username : acct.username
+            username : acct.username,
+            timestamp : moment().format("MMM Do YY, h:mm a")
         });
         post.save(function(err, posted) {
             if (err) return console.error(err);
