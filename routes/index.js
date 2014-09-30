@@ -3,7 +3,15 @@ var router = express.Router();
 var ObjectID = require('mongodb').ObjectID;
 var mongoose = require('mongoose');
 var moment = require('moment');
-mongoose.connect("mongodb://localhost/fritterdb");
+var connection_string = 'localhost/fritter';
+
+if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+  connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/fritter';
+}
+mongoose.connect(connection_string);
 
 var db = mongoose.connection;
 
