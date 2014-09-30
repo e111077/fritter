@@ -1,0 +1,27 @@
+.postWrapper {
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+input {
+    font-weight: bold;
+}
+
+.down.arrow.icon {
+    font-size: 10px !important;
+    text-align: right;
+}
+
+.ui .down.arrow.link {
+    margin-left: 17px;
+    margin-top: 4px;
+}
+
+.editPost, .deletePost {
+    cursor: pointer;
+    cursor: hand;
+}
+
+.ui.header {
+    margin: 0em 0 0rem;
+}

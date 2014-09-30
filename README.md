@@ -1,6 +1,4 @@
-openshift-basic
-===============
+proj2
+=====
 
-Basic Node.js template for OpenShift
-
-Replace this file with your project description!
+Twitter Clone

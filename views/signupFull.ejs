@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="javascripts/jquery-2.1.1.min.js"></script>
+    <script src="javascripts/signup.js"></script>
+    <script src="javascripts/semantic.min.js"></script>
+    <title>Fritter: signup</title>
+    <link rel='stylesheet' href='/stylesheets/semantic.min.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/login.css' />
+</head>
+<body>
+    <%= include navbar.ejs %>
+    <div class="centered bodyContent">
+        <div id="title">
+            Come Fritt with us!
+        </div>
+        <div class="ui centered purple error form segment">
+            <div class="ui hidden error message">
+                <div class="header">Login Error</div>
+                <p>That username is already taken, try another one.</p>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <input placeholder="First Name" name="first-name" type="text">
+                </div>
+                <div class="field">
+                    <input placeholder="Last Name" name="last-name" type="text">
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui left labeled icon input">
+                    <input type="text" name="username" placeholder="Desired Username">
+                    <i class="user icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui left labeled icon input">
+                    <input type="password" name="password" placeholder="Password">
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="ui purple submit button">
+                Signup
+            </div>
+        </div>
+        <div class="purple-text" id="disclaimer">This site uses cookies, so please don't flip out for some dumb, internet freedom reason.</div>
+    </form>
+</body>
+</html>
