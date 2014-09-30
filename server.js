@@ -59,3 +59,5 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+app.listen(process.env.OPENSHIFT_NODEJS_PORT || 8080,
+           process.env.OPENSHIFT_NODEJS_IP);
