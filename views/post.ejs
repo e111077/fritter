@@ -1,0 +1,31 @@
+<div class="postWrapper" id=<%= posts[i].id %>>
+    <div class="ui piled feed segment">
+        <% if(posts[i].username==username) { %>
+            <div class="ui purple right corner label">
+                <i class="ui down arrow icon link" data-content="<a class='deletePost purple-text' onclick='deletePost()' value='<%= posts[i].id %>'>Delete</a><br><a class='editPost purple-text' onclick='editPost()' value='<%= posts[i].id %>'>Edit</a>"></i>
+            </div>
+        <% } %>
+        <h2 class="ui header purple-text">
+            <%= posts[i].title %>
+        </h2>
+        
+        <div class="event">
+            <div class="content">
+                <div class="date">
+                    Originally posted: <%= posts[i].timestamp %>
+                </div>
+                <div class="summary">
+                    <a class="light-purple"><% if(posts[i].username==username) { %> You <% } else { %>  <%= posts[i].user %><% } %></a> submitted a post
+                </div>
+            </div>
+        </div>
+        <div class="event">
+            <div class="label">
+                <i class="circular pencil icon"></i>
+            </div>
+            <div class="content">
+                <%= posts[i].content %>
+            </div>
+        </div>
+    </div>
+</div>

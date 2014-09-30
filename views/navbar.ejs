@@ -1,0 +1,25 @@
+<div class="ui centered fixed purple inverted menu">
+    <div class="centered container">
+        <div class="title item" id="homeButton"><a href="/"><b><% if(name==""){%><%= title %><% } else {%><i class="home icon"></i><%= name %><% } %></b></a></div>
+        <div class="right item">
+            <% if(name=="") { %>
+                <a href="/login">
+                    <div class="ui mini inverted light-purple button">
+                        Login
+                    </div>
+                </a>
+                <a href="/signup">
+                    <div class="ui mini inverted light-purple button">
+                        Sign Up
+                    </div>
+                </a>
+            <% } else { %>
+                <a href="/logout" id="logout">
+                    <div class="ui mini inverted light-purple button">
+                        Logout
+                    </div>
+                </a>
+            <% } %>
+        </div>
+    </div>
+</div>

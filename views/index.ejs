@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="javascripts/jquery-2.1.1.min.js"></script>
+    <script src="javascripts/semantic.min.js"></script>
+    <% if (name == ""){ %>
+        <script src="javascripts/login.js"></script>
+    <% } else { %>
+        <script src="javascripts/main.js"></script>
+        <script src="javascripts/logout.js"></script>
+    <% } %>
+    <title><%= title %><% if (name=="") { %>: login<% } else { %>: Feed <% } %></title>
+    <link rel='stylesheet' href='/stylesheets/semantic.min.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <% if (name == ""){ %>
+        <link rel='stylesheet' href='/stylesheets/login.css' />
+    <% } else { %>
+        <link rel='stylesheet' href='/stylesheets/home.css' />
+    <% } %>
+</head>
+<body>
+    <%= include navbar.ejs %>
+    <div class="centered bodyContent">
+        <% if (name == ""){ %>
+            <%= include login.ejs %>
+        <% } else { %>
+            <%= include home.ejs %>
+        <% } %>
+        <div class="purple-text" id="disclaimer">This site uses cookies, so please don't flip out for some dumb, internet freedom reason.</div>
+    </div>
+</body>
+</html>

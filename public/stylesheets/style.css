@@ -1,0 +1,67 @@
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+.menu {
+    top: 0;
+    left: 0;
+}
+
+.menu .button {
+    margin-top: 0;
+}
+
+.title {
+    font-size: 20px !important;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.menu .container {
+    width: 80%;
+    min-width: 500px;
+    max-width: 1300px;
+}
+
+.light-purple {
+    background-color: white !important;
+    color: #6F66B3 !important;
+}
+
+.inverted.light-purple {
+    background-color: #6F66B3 !important;
+    color: white !important;
+}
+
+.bodyContent {
+    width: 80%;
+    min-width: 500px;
+    max-width: 1200px;
+    padding-top: 60px;
+}
+
+.centered {
+    margin: 0px auto !important;
+}
+
+.purple-text {
+    color: #564F8A;
+}
+
+#disclaimer {
+    padding-top: 10px;
+    text-align: center;
+    font-size: 9px;
+}
+
+::selection {
+    color: white;
+    background: rgba(86,79,138,.7); /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+    color: white;
+    background: rgba(86,79,138,.7); /* Gecko Browsers */
+}
