@@ -3,15 +3,19 @@
 <head>
     <script src="javascripts/jquery-2.1.1.min.js"></script>
     <script src="javascripts/semantic.min.js"></script>
+    <!-- load the login js if the name is not set i.e. no session -->
     <% if (name == ""){ %>
         <script src="javascripts/login.js"></script>
     <% } else { %>
+        <!-- load the logout logic and main page logic if user has a session -->
         <script src="javascripts/main.js"></script>
         <script src="javascripts/logout.js"></script>
     <% } %>
+    <!-- set the page title dynamically -->
     <title><%= title %><% if (name=="") { %>: login<% } else { %>: Feed <% } %></title>
     <link rel='stylesheet' href='/stylesheets/semantic.min.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <!-- load the appropriate stylesheets if session -->
     <% if (name == ""){ %>
         <link rel='stylesheet' href='/stylesheets/login.css' />
     <% } else { %>
@@ -19,8 +23,10 @@
     <% } %>
 </head>
 <body>
+    <!-- load the navbar -->
     <%= include navbar.ejs %>
     <div class="centered bodyContent">
+        <!-- load the login page if no session; load the feed if there is a session -->
         <% if (name == ""){ %>
             <%= include login.ejs %>
         <% } else { %>

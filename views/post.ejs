@@ -1,20 +1,25 @@
+<!-- store the post ID in the wrapper -->
 <div class="postWrapper" id=<%= posts[i].id %>>
     <div class="ui piled feed segment">
+        <!-- show the edit/delete options if the post is owned by the user -->
         <% if(posts[i].username==username) { %>
             <div class="ui purple right corner label">
                 <i class="ui down arrow icon link" data-content="<a class='deletePost purple-text' onclick='deletePost()' value='<%= posts[i].id %>'>Delete</a><br><a class='editPost purple-text' onclick='editPost()' value='<%= posts[i].id %>'>Edit</a>"></i>
             </div>
         <% } %>
         <h2 class="ui header purple-text">
+            <!-- display the post title -->
             <%= posts[i].title %>
         </h2>
         
         <div class="event">
             <div class="content">
                 <div class="date">
+                    <!-- display the timestamp -->
                     Originally posted: <%= posts[i].timestamp %>
                 </div>
                 <div class="summary">
+                    <!-- show the username or "You" depending on whose post it is -->
                     <a class="light-purple"><% if(posts[i].username==username) { %> You <% } else { %>  <%= posts[i].user %><% } %></a> submitted a post
                 </div>
             </div>
@@ -24,6 +29,7 @@
                 <i class="circular pencil icon"></i>
             </div>
             <div class="content">
+                <!-- display the post content -->
                 <%= posts[i].content %>
             </div>
         </div>

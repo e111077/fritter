@@ -1,7 +1,9 @@
 <div class="ui centered fixed purple inverted menu">
     <div class="centered container">
+        <!-- change the words at the top left dynamically based on session -->
         <div class="title item" id="homeButton"><a href="/"><b><% if(name==""){%><%= title %><% } else {%><i class="home icon"></i><%= name %><% } %></b></a></div>
         <div class="right item">
+            <!-- if not logged in, show a login / signup button -->
             <% if(name=="") { %>
                 <a href="/login">
                     <div class="ui mini inverted light-purple button">
@@ -13,6 +15,7 @@
                         Sign Up
                     </div>
                 </a>
+            <!-- if user is logged in, show a logout button -->
             <% } else { %>
                 <a href="/logout" id="logout">
                     <div class="ui mini inverted light-purple button">
