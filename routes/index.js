@@ -25,28 +25,24 @@ db.on('error', function (err) {
 // Create mongoose models
 var Post;
 var Account;
-// Create mongoose schemae and models after connection is established
-db.once('open', function () {
-    console.log('connected.');
-    var accountSchema = new mongoose.Schema({
-        firstName   : String,
-        lastName    : String,
-        name        : String,
-        username    : String,
-        password    : String,
-        following   : [String]
-    });
-    Account = mongoose.model("Account", accountSchema);
-    
-    var postSchema = new mongoose.Schema({
-        username    : String,
-        title       : String,
-        body        : String,
-        name        : String,
-        timestamp   : String
-    });
-    Post = mongoose.model("Post", postSchema);
+var accountSchema = new mongoose.Schema({
+    firstName   : String,
+    lastName    : String,
+    name        : String,
+    username    : String,
+    password    : String,
+    following   : [String]
 });
+Account = mongoose.model("Account", accountSchema);
+
+var postSchema = new mongoose.Schema({
+    username    : String,
+    title       : String,
+    body        : String,
+    name        : String,
+    timestamp   : String
+});
+Post = mongoose.model("Post", postSchema);
 
 // what to render if we lookup a user
 function userLookupRender (req, res, userQuery, acct, posts) {
