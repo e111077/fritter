@@ -8,8 +8,12 @@
         <script src="javascripts/login.js"></script>
     <% } else { %>
         <!-- load the logout logic and main page logic if user has a session -->
-        <script src="javascripts/main.js"></script>
-        <script src="javascripts/logout.js"></script>
+        <script src="javascripts/home.js"></script>
+        <script src="javascripts/navbar.js"></script>
+        <!-- Checks if we are looking up a user -->
+        <% if (userLookup){ %>
+            <script src="javascripts/user.js"></script>
+        <% } %>
     <% } %>
     <!-- set the page title dynamically -->
     <title><%= title %><% if (name=="") { %>: login<% } else { %>: Feed <% } %></title>
@@ -26,9 +30,12 @@
     <!-- load the navbar -->
     <%= include navbar.ejs %>
     <div class="centered bodyContent">
-        <!-- load the login page if no session; load the feed if there is a session -->
+        <!-- load the login page if no session; load the feed if there is a session or 
+                load the user page if it is a userlookup -->
         <% if (name == ""){ %>
             <%= include login.ejs %>
+        <% } else if(userLookup) { %>
+            <%= include user.ejs %>
         <% } else { %>
             <%= include home.ejs %>
         <% } %>

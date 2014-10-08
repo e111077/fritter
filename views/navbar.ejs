@@ -17,6 +17,12 @@
                 </a>
             <!-- if user is logged in, show a logout button -->
             <% } else { %>
+                <input type="text" placeholder="Search Username..." id="searchText">
+                <a id="searchButton">
+                    <div class="ui mini inverted light-purple button">
+                        Search
+                    </div>
+                </a>
                 <a href="/logout" id="logout">
                     <div class="ui mini inverted light-purple button">
                         Logout

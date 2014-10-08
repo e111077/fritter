@@ -1,7 +1,17 @@
-proj2
-=====
+Fritter Project 2
+=================
+##Twitter Clone
+Hosted on [OpenShift](http://fritter-emarquez.rhcloud.com/)
 
-Twitter Clone
+## Attributions:
+These attribuitions are given to modules, frameworks, etc. not discussed in lecture
 
-Hosted at:
-http://fritter-emarquez.rhcloud.com/
+* [Semantic UI](http://www.semantic-up.com)
+  * CSS styling
+  * Forms
+    * Styling
+    * Validation
+  * Animation
+* [Moment](http://momentjs.com/)
+  * Time formatting
+  * Timestamping

@@ -87,34 +87,12 @@ $(document).ready(function() {
         var editForm = $('#f'+postId);
 
         // if the edit form is not there, make it show do nothing otherwise
-        if (editForm.length == 0) {
+        if (editForm.css("display") == "none") {
             // animates the editing button
             post.transition('slide down', function() {
-                // inserts a form to edit the post
-                post.html(
-                    '<div class="ui purple error editing form segment" id="f'+postId+'">\
-                        <div class="ui hidden error message" id="e'+postId+'">\
-                        </div>\
-                        <div class="purple-text title">\
-                            Changed your mind, eh?\
-                        </div>\
-                        <div class="field" style="padding-top:10px;">\
-                            <input type="text" name="title'+postId+'" placeholder="Title">\
-                        </div>\
-                        <div class="field">\
-                            <textarea name="body'+postId+'" placeholder="What do you want to share?"></textarea>\
-                        </div>\
-                        <div class="field">\
-                            <div class="ui purple editing submit button" id="b'+postId+'">\
-                                Edit\
-                            </div>\
-                            <a href="/">\
-                                <div class="ui purple button">\
-                                    Cancel\
-                                </div>\
-                            </a>\
-                        </div>\
-                    </div>');
+                // shows a form to edit the post
+                editForm.css("display", "inline");
+                post.css("display", "none");
                 
                 // finds the form again
                 editForm = $('#f'+postId);

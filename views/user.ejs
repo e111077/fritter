@@ -1,0 +1,18 @@
+<div id="title">
+    <%= title %>
+</div>
+
+<!-- do not show buttons if you are visiting own page -->
+<% if (!self) { %>
+    <!-- show follow / unfollow button -->
+    <% if (following) { %>
+        <div class="ui purple button" whois="<%= searchedUsername %>" id="unfollowButton">Stop Following <%= searchedFirst %>?</div>
+    <% } else { %>
+        <div class="ui purple button" whois="<%= searchedUsername %>" id="followButton">Follow <%= searchedFirst %>?</div>
+    <% } %>
+<% } %>
+
+<!-- iterate through the posts backwards (most recent -> oldest) -->
+<% for (var i=posts.length-1; i >= 0; i--) { %>
+    <%= include post.ejs %>
+<% } %>

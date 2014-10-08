@@ -1,6 +1,33 @@
 <!-- store the post ID in the wrapper -->
-<div class="postWrapper" id=<%= posts[i].id %>>
-    <div class="ui piled feed segment">
+<div class="postWrapper">
+    <!-- Hidden edit post form -->
+    <div style="display:none;" id="f<%= posts[i].id %>">
+        <div  class="ui purple error editing form segment" >
+            <div class="ui hidden error message" id="e<%= posts[i].id %>">
+            </div>
+            <div class="purple-text title">
+                Changed your mind, eh?
+            </div>
+            <div class="field" style="padding-top:10px;">
+                <input type="text" name="title<%= posts[i].id %>" placeholder="Title">
+            </div>
+            <div class="field">
+                <textarea name="body<%= posts[i].id %>" placeholder="What do you want to share?"></textarea>
+            </div>
+            <div class="field">
+                <div class="ui purple editing submit button" id="b<%= posts[i].id %>">
+                    Edit
+                </div>
+                <a href="/">
+                    <div class="ui purple button">
+                        Cancel
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- initially visible post -->
+    <div class="ui piled feed segment" id='<%= posts[i].id %>'>
         <!-- show the edit/delete options if the post is owned by the user -->
         <% if(posts[i].username==username) { %>
             <div class="ui purple right corner label">
@@ -20,7 +47,7 @@
                 </div>
                 <div class="summary">
                     <!-- show the username or "You" depending on whose post it is -->
-                    <a class="light-purple"><% if(posts[i].username==username) { %> You <% } else { %>  <%= posts[i].user %><% } %></a> submitted a post
+                    <a class="light-purple" href="/user?username=<%= posts[i].username %>"><% if(posts[i].username==username) { %> You <% } else { %>  <%= posts[i].user %><% } %></a> submitted a post
                 </div>
             </div>
         </div>
