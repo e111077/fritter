@@ -1,0 +1,8 @@
+<div id="title">
+    #<%= query %>
+</div>
+
+<!-- iterate through the posts backwards (most recent -> oldest) -->
+<% for (var i=posts.length-1; i >= 0; i--) { %>
+    <%= include post.ejs %>
+<% } %>

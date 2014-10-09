@@ -43,13 +43,14 @@ db.once('open', function () {
         title       : String,
         body        : String,
         name        : String,
-        timestamp   : String
+        timestamp   : String,
+        hashtags    : [String]
     });
     Post = mongoose.model("Post", postSchema);
 });
 
 // what to render if we lookup a user
-function userLookupRender (req, res, userQuery, acct, posts) {
+function userLookupRender (req, res, userQuery, acct, posts, source) {
     // try to find the searched user
     Account.findOne({username:userQuery}, function(err, searchedAcct) {
         // if we dont find the user, send back to feed
@@ -73,7 +74,7 @@ function userLookupRender (req, res, userQuery, acct, posts) {
                 {
                     following       : following,
                     self            : self,
-                    userLookup      : true,
+                    source          : source,
                     searchedUsername: searchedAcct.username,
                     searchedFirst   : searchedAcct.firstName,
                     title           : searchedAcct.name,
@@ -109,7 +110,7 @@ function userLookupRender (req, res, userQuery, acct, posts) {
                 {
                     following       : following,
                     self            : self,
-                    userLookup      : true,
+                    source          : source,
                     searchedUsername: searchedAcct.username,
                     searchedFirst   : searchedAcct.firstName,
                     title           : searchedAcct.name,
@@ -122,12 +123,13 @@ function userLookupRender (req, res, userQuery, acct, posts) {
 };
 
 // Renders the feed
-function feedRender(req, res, acct, posts) {
+function feedRender(req, res, acct, posts, source, query) {
     // returns an instructional post if nobody has posted or is followed
     if (posts.length == 0) {
         res.render('index',
             {
-                userLookup  : false,
+                source      : source,
+                query       : query,
                 title       : 'Fritter',
                 name        : acct.name,
                 username    : acct.username,
@@ -166,7 +168,8 @@ function feedRender(req, res, acct, posts) {
         // renders the feed
         res.render('index',
             {
-                userLookup  : false,
+                source      : source,
+                query       : query,
                 title       : 'Fritter',
                 name        : acct.name,
                 username    : acct.username,
@@ -176,44 +179,54 @@ function feedRender(req, res, acct, posts) {
 };
 
 // functional that returns a rendering function given if it is a user lookup or not
-function index(userLookup) {
-
+function index(source) {
     // render the main page that servs as a login page and the main feed page and user page
     var output = function(req, res)  {
         // reads the ID from the cookie if it exists and sets it to an appropriate value
         var id = req.cookies.id === undefined? "" : req.cookies.id;
 
         // get the user query if there is one
-        var userQuery;
-        if (userLookup) {
-            userQuery = req.query.username;
+        var rawQuery;
+        if (source == "userLookup") {
+            rawQuery = req.query.username;
+        } else if (source == "hashtag") {
+            rawQuery = req.query.hashtag;
         }
-        
+
         // finds the account associated with the cookie
         Account.findOne({_id:id}, function(err, acct) {
             // loads the login page if user cookie does not authenticate
             if (acct === undefined || acct == null) {
-                if (userLookup) {
+                if (source == "userLookup" || source == "hashtag") {
                     res.redirect('/');
                 } else {
                     res.render('index', { title: 'Fritter', name:""});
                 }
             } else {
-                // get the list of people the user is following and format it for a mongoose query
-                var following = acct.following;
-                var followingQuery = [];
-                for (var i = 0; i < following.length; i++) {
-                    followingQuery.push({username:following[i]});
+
+                var query;
+                if (source == "") {
+                    // get the list of people the user is following and format it for a mongoose query
+                    var following = acct.following;
+                    var followingQuery = [];
+                    for (var i = 0; i < following.length; i++) {
+                        followingQuery.push({username:following[i]});
+                    }
+                    query = {$or:followingQuery};
+                } else if (source == "userLookup") {
+                    query = {username:rawQuery};
+                } else if (source == "hashtag") {
+                    query = {hashtags:rawQuery}
                 }
 
                 // if this is a query, it looks just for the posts belonging to the user queried,
                 // if it is not a query, it looks for all the posts of people you follow
-                Post.find(userLookup ? {username:userQuery} : {$or:followingQuery},function(err, posts) { 
+                Post.find(query ,function(err, posts) { 
                     // render based on if it is a lookup or not
-                    if (userLookup) {
-                        userLookupRender(req,res, userQuery, acct, posts);
+                    if (source == "userLookup") {
+                        userLookupRender(req,res, rawQuery, acct, posts, source);
                     } else {
-                        feedRender(req, res, acct, posts);
+                        feedRender(req, res, acct, posts, source, rawQuery);
                     }
                 });
                 
@@ -225,7 +238,7 @@ function index(userLookup) {
 };
 
 // displays the feed / login page
-router.get('/', index(false));
+router.get('/', index("index"));
 
 // dispalys a dedicated login page
 router.get('/login', function(req, res) {
@@ -240,10 +253,10 @@ router.get('/signup', function(req, res) {
 });
 
 // displaysthe main page, but clears cookies thus forcing the login page
-router.get('/logout', index(false));
+router.get('/logout', index("index"));
 
 // attempts to login the user
-router.get('/loginattempt', function index(req, res) {
+router.get('/loginattempt', function (req, res) {
     // gets the username / password from the incoming json
     var username = req.query.username;
     var password = req.query.password;
@@ -265,7 +278,7 @@ router.get('/loginattempt', function index(req, res) {
 });
 
 // sighs the user up for the website and writes to the DB
-router.get('/signupattempt', function index(req, res) {
+router.get('/signupattempt', function (req, res) {
     // get user info from the incoming json
     var first = req.query.first;
     var last = req.query.last;
@@ -300,10 +313,10 @@ router.get('/signupattempt', function index(req, res) {
 });
 
 // render the user page given that we are performing a user query.
-router.get('/user', index(true));
+router.get('/user', index("userLookup"));
 
 // submit a post to the db
-router.get('/submitpost', function index(req, res) {
+router.get('/submitpost', function (req, res) {
     // get the ID from the cookie
     var id = req.cookies.id === undefined? "" : req.cookies.id;
 
@@ -312,12 +325,14 @@ router.get('/submitpost', function index(req, res) {
         // get the appropriate info from the incoming json
         var title = req.query.title;
         var body = req.query.body;
+        var hashtags = req.query.hashtags;
         // create the post
         var post = new Post({
             title       : title,
             body        : body,
             name        : acct.name,
             username    : acct.username,
+            hashtags    : hashtags,
             timestamp   : moment().format("MMM Do YY, h:mm a")
         });
 
@@ -331,7 +346,7 @@ router.get('/submitpost', function index(req, res) {
 });
 
 // delete a post from the db
-router.get('/deletepost', function index(req, res) {
+router.get('/deletepost', function (req, res) {
     // find the post by id and remove it
     Post.findOneAndRemove({_id:req.query.postId}, function() {
         res.json({success:true});
@@ -339,15 +354,15 @@ router.get('/deletepost', function index(req, res) {
 });
 
 // edit a post from the db
-router.get('/editpost', function index(req, res) {
+router.get('/editpost', function (req, res) {
     // find the post by id and change hte body and title
-    Post.findByIdAndUpdate(req.query.postId, {$set:{title:req.query.title,body:req.query.body}}, function() {
+    Post.findByIdAndUpdate(req.query.postId, {$set:{title:req.query.title,body:req.query.body, hashtags:req.query.hashtags}}, function() {
         res.json({success:true});
     });
 });
 
 // unfollow a user
-router.get('/unfollow', function index(req, res) {
+router.get('/unfollow', function (req, res) {
     // finds who the requestor is
     Account.findById(req.query.requestor, function (err, acct) {
         var following = acct.following;
@@ -366,7 +381,7 @@ router.get('/unfollow', function index(req, res) {
 });
 
 // follow a user
-router.get('/follow', function index(req, res) {
+router.get('/follow', function (req, res) {
     // finds who the requestor is
     Account.findById(req.query.requestor, function (err, acct) {
         // adds the user to the following list
@@ -379,5 +394,7 @@ router.get('/follow', function index(req, res) {
         });
     });
 });
+
+router.get('/hashtag', index('hashtag'));
 
 module.exports = router;

@@ -1,6 +1,24 @@
 var deletePost;
 
 $(document).ready(function() {
+    function findHashtagsAndFormat(body) {
+        var words = body.split(" ");
+        var hashtags = [];
+        var modifiedBody = "";
+
+        for (var i = 0; i < words.length; i++) {
+            var word = words[i];
+
+            if (word.indexOf("#") == 0) {
+                hashtags.push(word.substring(1, word.length));
+                modifiedBody += "<a class='purple-text' href='/hashtag?hashtag=" + word.substring(1, word.length) +"'>"+word+"</a> ";
+            } else {
+                modifiedBody += word + " ";
+            }
+        }
+
+        return [hashtags, modifiedBody];
+    };
     // pops up the menu on the little arrows to edit and delete
     $('.ui .down.arrow').popup({on: 'click'});
 
@@ -29,7 +47,10 @@ $(document).ready(function() {
             // get the title and body of the sumbitted post
             var title = $("[name='title']").val();
             var body = $("[name='body']").val();
-            var params = {title:title, body:body};
+            var modified = findHashtagsAndFormat(body);
+            var hashtags = modified[0];
+            body = modified[1];
+            var params = {title:title, body:body, hashtags:hashtags};
 
             // perorm an ajax call to the sever sending the info
             $.ajax({
@@ -121,7 +142,10 @@ $(document).ready(function() {
                         // get the new title and body
                         var title = $("[name='title"+postId+"']").val();
                         var body = $("[name='body"+postId+"']").val();
-                        var params = {postId:postId, title:title, body:body};
+                        var modified = findHashtagsAndFormat(body);
+                        var hashtags = modified[0];
+                        body = modified[1];
+                        var params = {postId:postId, title:title, body:body, hashtags:hashtags};
 
                         // submit the data to the server
                         $.ajax({

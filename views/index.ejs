@@ -11,7 +11,7 @@
         <script src="javascripts/home.js"></script>
         <script src="javascripts/navbar.js"></script>
         <!-- Checks if we are looking up a user -->
-        <% if (userLookup){ %>
+        <% if (source == "userLookup"){ %>
             <script src="javascripts/user.js"></script>
         <% } %>
     <% } %>
@@ -34,8 +34,10 @@
                 load the user page if it is a userlookup -->
         <% if (name == ""){ %>
             <%= include login.ejs %>
-        <% } else if(userLookup) { %>
+        <% } else if(source == "userLookup") { %>
             <%= include user.ejs %>
+        <% } else if(source == "hashtag") { %>
+            <%= include hashtag.ejs %>
         <% } else { %>
             <%= include home.ejs %>
         <% } %>
