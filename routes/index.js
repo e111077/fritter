@@ -205,7 +205,7 @@ function index(source) {
             } else {
 
                 var query;
-                if (source == "") {
+                if (source == "index") {
                     // get the list of people the user is following and format it for a mongoose query
                     var following = acct.following;
                     var followingQuery = [];
@@ -218,7 +218,7 @@ function index(source) {
                 } else if (source == "hashtag") {
                     query = {hashtags:rawQuery}
                 }
-
+                console.log(query);
                 // if this is a query, it looks just for the posts belonging to the user queried,
                 // if it is not a query, it looks for all the posts of people you follow
                 Post.find(query ,function(err, posts) { 
